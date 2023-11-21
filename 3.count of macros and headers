@@ -1,0 +1,30 @@
+%{
+#include <stdio.h>
+int macroCount = 0;
+int headerCount = 0;
+%}
+
+%%
+^#define    { macroCount++; }
+^#include   { headerCount++; }
+.|\n        /* Ignore other characters */
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main() {
+FILE *input;
+char file[50];
+printf("enter filename=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+    printf("Number of macros defined: %d\n", macroCount);
+    printf("Number of header files included: %d\n", headerCount);
+    return 0;
+}
