@@ -1,0 +1,23 @@
+DIGIT [0-9]
+%{
+int constantCount = 0;
+%}
+%%
+{DIGIT}+ {	constantCount++; printf("%s is a constant \n", yytext); }
+.|\n	{}                     
+%%
+int yywrap()
+{
+	return 1;
+}
+int main() {
+	FILE *f;
+	char file[20];
+	printf("Enter file name:");
+	scanf("%s", file);
+	f=fopen(file, "r");
+	yyin=f;	
+    	yylex();
+    	printf("Number of constants: %d\n", constantCount);
+    return 0;
+}
