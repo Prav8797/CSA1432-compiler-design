@@ -1,0 +1,32 @@
+%{
+#include<string.h>
+int charcount=0;
+int wordcount=0;
+int linecount=0;
+%}
+
+%%
+[a-z A-Z]+  {wordcount++;}
+\n          {charcount++;  linecount++;}
+.           {charcount++;}
+%%
+
+int yywrap()
+{
+    return 1;
+}
+int main()
+{
+FILE *input;
+char file[50];
+printf("enter filename=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+printf("charcters = %d\n",charcount);
+printf("words = %d\n",wordcount);
+printf("lines = %d\n",linecount);
+return 0;
+}
