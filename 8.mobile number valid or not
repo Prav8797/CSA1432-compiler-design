@@ -1,0 +1,29 @@
+@@ -0,0 +1,28 @@
+%{
+#include <stdio.h>
+%}
+
+MOBILE [0-9]{10}
+
+%%
+{MOBILE}  { printf("Valid mobile number: %s\n", yytext); }
+.|\n     /* Ignore other characters */
+%%
+
+int yywrap()
+{
+return 1;
+}
+
+int main() {
+FILE *input;
+char 
+file[90];
+printf("Enter file name: ");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+    return 0;
+}
