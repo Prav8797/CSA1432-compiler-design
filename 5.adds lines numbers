@@ -1,0 +1,25 @@
+%{
+#include <stdio.h>
+int lineno=0;
+%}
+
+%%
+.* {lineno++;fprintf(yyout,"\n%d:%s",lineno,yytext);} 
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main() {
+FILE *input;
+char file[50];
+printf("enter filename=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+    return 0;
+}
