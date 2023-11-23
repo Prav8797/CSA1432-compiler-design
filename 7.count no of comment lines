@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+int commentCount = 0;
+%}
+
+%%
+"//".*          { commentCount++; }   // Single-line comments
+"/*".*?"*/"      { commentCount++; }   // Multi-line comments
+.|\n            /* Ignore other characters */
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main() {
+ FILE *input;
+char file[50];
+printf("enter filename=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+    printf("Number of comments: %d\n", commentCount);
+    return 0;
+}
