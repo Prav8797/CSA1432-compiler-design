@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+%}
+
+EMAIL [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}
+
+%%
+{EMAIL}  { printf("Valid email: %s\n", yytext); }
+.|\n     /* Ignore other characters */
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+
+int main() {
+    FILE *input;
+char file[50];
+printf("enter filename=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+    return 0;
+}
