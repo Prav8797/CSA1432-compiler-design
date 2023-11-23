@@ -1,0 +1,25 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+"old_word"    { printf("new_word"); }
+.             { putchar(yytext[0]); }
+%%
+
+int yywrap()
+{
+return 1;
+}
+
+int main(void) {
+     FILE *input;
+char file[99];
+printf("enter file name=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+    return 0;
+}
