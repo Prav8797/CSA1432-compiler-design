@@ -1,0 +1,26 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+[A-Z]   { printf("%c\n", yytext[0]); }
+.       { /* ignore other characters */ }
+%%
+
+int yywrap()
+{
+return 1;
+}
+
+int main()
+{
+FILE *input;
+char file[100];
+printf("enter file name=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+return 0;
+}
