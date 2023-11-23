@@ -1,0 +1,27 @@
+%{
+#include <stdio.h>
+int word_count = 0;
+%}
+
+%%
+word    { word_count++; }
+.       { /* ignore other characters */ }
+%%
+
+int yywrap()
+{
+return 1;
+}
+
+int main(void) {
+     FILE *input;
+char file[99];
+printf("enter file name=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+    printf("Frequency of the word 'word': %d\n", word_count);
+    return 0;
+}
