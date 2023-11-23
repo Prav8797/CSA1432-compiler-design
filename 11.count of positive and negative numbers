@@ -1,0 +1,41 @@
+%{
+#include <stdio.h>
+int positiveCount = 0;
+int negativeCount = 0;
+%}
+
+DIGIT [0-9]
+SIGN [+-]?
+INTEGER {DIGIT}+
+NUMBER {SIGN}{INTEGER}
+
+%%
+{NUMBER}   {
+               int num = atoi(yytext);
+               if (num > 0) {
+                   positiveCount++;
+               } else if (num < 0) {
+                   negativeCount++;
+               }
+           }
+.|\n       /* Ignore other characters */
+%%
+
+int yywrap()
+{
+return 1;
+}
+
+int main() {
+    FILE *input;
+char file[50];
+printf("enter filename=");
+scanf("%s",file);
+input=fopen(file,"r");
+yyin=input;
+yylex();
+fclose(input);
+    printf("Positive numbers: %d\n", positiveCount);
+    printf("Negative numbers: %d\n", negativeCount);
+    return 0;
+}
